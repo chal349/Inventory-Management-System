@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="650.0" style="-fx-background-color: #e9ecef;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddPartController">
+   <children>
+      <HBox layoutX="41.0" layoutY="48.0" spacing="40.0">
+         <children>
+            <Label fx:id="AddPartLabel" text="Add Part">
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+            </Label>
+            <RadioButton fx:id="addPartInHouseButton" mnemonicParsing="false" onAction="#onActionAddPartInHouse" text="In-House">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+               <toggleGroup>
+                  <ToggleGroup fx:id="addPartToggle" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="addPartOutsourcedButton" mnemonicParsing="false" onAction="#onActionAddPartOutsourced" text="Outsourced" toggleGroup="$addPartToggle">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+            </RadioButton>
+         </children>
+         <padding>
+            <Insets left="60.0" top="50.0" />
+         </padding>
+      </HBox>
+      <VBox layoutX="101.0" layoutY="182.0" prefHeight="226.0" prefWidth="112.0">
+         <children>
+            <Label text="ID" VBox.vgrow="NEVER">
+               <padding>
+                  <Insets bottom="18.0" />
+               </padding>
+               <font>
+                  <Font name="Arial" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="10.0" layoutY="10.0" text="Name">
+               <padding>
+                  <Insets bottom="18.0" />
+               </padding>
+               <font>
+                  <Font name="Arial" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="10.0" layoutY="47.0" text="Inventory">
+               <padding>
+                  <Insets bottom="20.0" />
+               </padding>
+               <font>
+                  <Font name="Arial" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="10.0" layoutY="84.0" text="Price/Cost">
+               <padding>
+                  <Insets bottom="18.0" />
+               </padding>
+               <font>
+                  <Font name="Arial" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="10.0" layoutY="121.0" prefHeight="19.0" prefWidth="31.0" text="Max">
+               <padding>
+                  <Insets bottom="18.0" />
+               </padding>
+               <font>
+                  <Font name="Arial" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="MachineCompany" layoutX="10.0" layoutY="158.0" text="Machine ID">
+               <padding>
+                  <Insets bottom="20.0" />
+               </padding>
+               <font>
+                  <Font name="Arial" size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="219.0" layoutY="180.0" prefHeight="250.0" prefWidth="120.0">
+         <children>
+            <TextField fx:id="addPartID" disable="true" editable="false" layoutX="10.0" layoutY="10.0">
+               <VBox.margin>
+                  <Insets bottom="12.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Arial Italic" size="14.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="addPartName" layoutX="10.0" layoutY="47.0" promptText="Name of Part">
+               <VBox.margin>
+                  <Insets bottom="12.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Arial Italic" size="14.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="addPartInv" layoutX="10.0" layoutY="84.0" promptText="# Inv. in Stock">
+               <VBox.margin>
+                  <Insets bottom="12.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Arial Italic" size="14.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="addPartPrice" layoutX="10.0" layoutY="121.0" promptText="  0.00">
+               <VBox.margin>
+                  <Insets bottom="12.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Arial Italic" size="15.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="addPartMax" layoutX="10.0" layoutY="158.0" promptText="Max # in Stock">
+               <font>
+                  <Font name="Arial Italic" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="12.0" />
+               </VBox.margin>
+            </TextField>
+            <TextField fx:id="addPartMachine" layoutX="10.0" layoutY="170.0" promptText="Machine #">
+               <font>
+                  <Font name="Arial Italic" size="14.0" />
+               </font>
+            </TextField>
+         </children>
+      </VBox>
+      <VBox layoutX="370.0" layoutY="172.0" prefHeight="250.0" prefWidth="56.0">
+         <children>
+            <Label layoutX="10.0" layoutY="150.0" text="Min">
+               <font>
+                  <Font name="Arial" size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="165.0" />
+               </VBox.margin>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="419.0" layoutY="173.0" prefHeight="250.0" prefWidth="128.0">
+         <children>
+            <TextField fx:id="addPartMin" promptText="Min # in Stock">
+               <font>
+                  <Font name="Arial Italic" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="160.0" />
+               </VBox.margin>
+            </TextField>
+         </children>
+      </VBox>
+      <ButtonBar layoutX="352.0" layoutY="472.0" prefHeight="40.0" prefWidth="200.0">
+         <buttons>
+            <Button minWidth="57.0" mnemonicParsing="false" onAction="#onActionAddPartSave" prefHeight="25.0" text="Save" />
+            <Button layoutX="140.0" layoutY="18.0" mnemonicParsing="false" onAction="#onActionAddPartCancel" text="Cancel" />
+         </buttons>
+      </ButtonBar>
+   </children>
+</AnchorPane>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="650.0" prefWidth="1000.0" style="-fx-background-color: #495057;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ModifyProductController">
+   <children>
+      <AnchorPane layoutX="26.0" layoutY="15.0" prefHeight="620.0" prefWidth="950.0" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-background-color: #e9ecef;">
+         <children>
+            <Label layoutX="277.0" layoutY="287.0" text="Min">
+               <padding>
+                  <Insets bottom="20.0" />
+               </padding>
+               <font>
+                  <Font name="Arial" size="16.0" />
+               </font>
+            </Label>
+            <TableView fx:id="modifyProductAddTable" layoutX="513.0" layoutY="74.0" prefHeight="185.0" prefWidth="384.0" style="-fx-selection-bar: #495057; -fx-selection-bar-non-focused: #495057;">
+               <columns>
+                  <TableColumn fx:id="modifyProductAddTableID" prefWidth="58.0" text="Part ID" />
+                  <TableColumn fx:id="modifyProductAddTablePartName" prefWidth="122.0" text="Part Name" />
+                  <TableColumn fx:id="modifyProductAddTableInv" prefWidth="117.0" text="Inventory Level" />
+                  <TableColumn fx:id="modifyProductAddTablePrice" prefWidth="85.0" text="Price/Cost per Unit" />
+               </columns>
+            </TableView>
+            <TableView fx:id="modifyProductDeleteTable" layoutX="513.0" layoutY="322.0" prefHeight="185.0" prefWidth="384.0" style="-fx-selection-bar: #495057; -fx-selection-bar-non-focused: #495057;">
+               <columns>
+                  <TableColumn fx:id="modifyProductDeleteTableID" prefWidth="58.0" text="Part ID" />
+                  <TableColumn fx:id="modifyProductDeleteTablePartName" prefWidth="122.0" text="Part Name" />
+                  <TableColumn fx:id="modifyProductDeleteTableInv" prefWidth="112.0" text="Inventory Level" />
+                  <TableColumn fx:id="modifyProductDeleteTablePrice" prefWidth="90.0" text="Price/Cost per Unit" />
+               </columns>
+            </TableView>
+            <Button layoutX="808.0" layoutY="280.0" mnemonicParsing="false" onAction="#onActionModifyProductAdd" text="Add" />
+            <TextField fx:id="modifyProductSearch" layoutX="730.0" layoutY="28.0" onAction="#onActionModifyProductSearch" prefHeight="25.0" prefWidth="166.0" promptText="Search by Part ID or Name">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </TextField>
+            <Button layoutX="708.0" layoutY="522.0" mnemonicParsing="false" onAction="#onActionModifyProductDelete" text="Remove Associated Part" />
+            <Button layoutX="709.0" layoutY="565.0" mnemonicParsing="false" onAction="#onActionModifyProductSave" text="Save" />
+            <Button layoutX="814.0" layoutY="566.0" mnemonicParsing="false" onAction="#onActionModifyProductCancel" text="Cancel" />
+         </children>
+      </AnchorPane>
+      <Label fx:id="modifyProduct" layoutX="77.0" layoutY="49.0" text="Modify Product">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <VBox layoutX="77.0" layoutY="127.0" prefHeight="250.0" prefWidth="96.0">
+         <children>
+            <Label text="ID">
+               <padding>
+                  <Insets bottom="25.0" />
+               </padding>
+               <font>
+                  <Font name="Arial" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="10.0" layoutY="10.0" text="Name">
+               <padding>
+                  <Insets bottom="25.0" />
+               </padding>
+               <font>
+                  <Font name="Arial" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="10.0" layoutY="47.0" text="Inv">
+               <padding>
+                  <Insets bottom="23.0" />
+               </padding>
+               <font>
+                  <Font name="Arial" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="10.0" layoutY="84.0" text="Price/Cost">
+               <padding>
+                  <Insets bottom="23.0" />
+               </padding>
+               <font>
+                  <Font name="Arial" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="10.0" layoutY="121.0" text="Max">
+               <padding>
+                  <Insets bottom="20.0" />
+               </padding>
+               <font>
+                  <Font name="Arial" size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="175.0" layoutY="127.0" prefHeight="201.0" prefWidth="165.0">
+         <children>
+            <TextField fx:id="modifyProductID" disable="true" editable="false" layoutX="10.0" layoutY="10.0" maxWidth="-Infinity" prefHeight="28.0" prefWidth="160.0">
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="modifyProductName" layoutX="10.0" layoutY="47.0" maxWidth="-Infinity" prefHeight="28.0" prefWidth="160.0">
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="modifyProductInv" layoutX="10.0" layoutY="84.0" maxWidth="-Infinity" prefHeight="28.0" prefWidth="100.0">
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="modifyProductPrice" layoutX="10.0" layoutY="121.0" maxWidth="-Infinity" prefWidth="100.0">
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="modifyProductMax" layoutX="10.0" layoutY="158.0" maxWidth="-Infinity" prefWidth="100.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="12.0" />
+               </VBox.margin>
+            </TextField>
+         </children>
+      </VBox>
+      <VBox layoutX="355.0" layoutY="299.0" prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <TextField fx:id="modifyProductMin" maxWidth="-Infinity" prefWidth="100.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
