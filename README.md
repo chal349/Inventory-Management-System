@@ -1,6 +1,6 @@
 
+![ezgif com-gif-maker (2)](https://user-images.githubusercontent.com/79333726/175373028-c6b13fd5-5d06-4534-a71f-76c01a7c0744.gif)
 
-![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/79333726/175372736-7cc58365-2158-4877-b024-90060110c5d5.gif)
 
 Inventory Management System 1.0 
 
