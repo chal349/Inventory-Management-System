@@ -15,7 +15,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.fxml.Initializable;
 import javafx.stage.Stage;
 import model.*;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -29,41 +28,23 @@ public class AddProductController implements Initializable {
     Stage stage;
     Parent scene;
 
-    /**
-     * Declare Variables
-     */
     @FXML private TextField addProductID;
-
     @FXML private TextField addProductInv;
-
     @FXML private TextField addProductMax;
-
     @FXML private TextField addProductMin;
-
     @FXML private TextField addProductName;
-
     @FXML private TextField addProductPrice;
-
     @FXML private TextField addProductSearch;
-
+    
     @FXML private TableView<Part> addProductTable;
-
     @FXML private TableColumn<Part, Integer> addProductTableID;
-
     @FXML private TableColumn<Part, Integer> addProductTableInvLevel;
-
     @FXML private TableColumn<Part, String> addProductTablePartName;
-
     @FXML private TableColumn<Part, Double> addProductTablePrice;
-
     @FXML private TableView<Part> deleteProductTable;
-
     @FXML private TableColumn<Part, Integer> deleteProductTableInvLevel;
-
     @FXML private TableColumn<Part, Integer> deleteProductTablePartID;
-
     @FXML private TableColumn<Part, String> deleteProductTablePartName;
-
     @FXML private TableColumn<Part, Double> deleteProductTablePrice;
 
     /**
@@ -72,13 +53,32 @@ public class AddProductController implements Initializable {
     private static ObservableList <Part> addToProduct = FXCollections.observableArrayList();
 
     /**
-     * This method moves selected part from parts table to products table and produces an alert if no part is selected.
-     * @param event NOT USED
+     * Initializes the AddProduct page - auto increments the Parts ID field - sets both tables to default values and parts.
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        addProductID.setText(Inventory.createProductsId().toString());
+        addProductTable.setItems(Inventory.getAllParts());
+        addProductTableID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        addProductTablePartName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        addProductTableInvLevel.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        addProductTablePrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        deleteProductTable.setItems(addToProduct);
+        deleteProductTablePartID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        deleteProductTablePartName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        deleteProductTableInvLevel.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        deleteProductTablePrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+    }
+    
+    /**
+     * Add part to Product - moves selected part from parts table to products table and produces an alert if no part is selected.
      */
     @FXML
     void onActionAddProductAdd(ActionEvent event) {
         Part selectedPart = addProductTable.getSelectionModel().getSelectedItem();
-        // If no selection
+        
         if (selectedPart == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning");
@@ -92,9 +92,7 @@ public class AddProductController implements Initializable {
     }
 
     /**
-     * This method cancels any data entered to Add product screen and tables - returns to main page.
-     * @param event Cancel button clicked
-     * @throws IOException fxml loader
+     * Cancel Product - cancels any data entered to Add product screen and tables - returns to main page.
      */
     @FXML
     void onActionAddProductCancel(ActionEvent event) throws IOException {
@@ -113,12 +111,12 @@ public class AddProductController implements Initializable {
     }
 
     /**
-     * This method removes selected part from Product Table.
-     * @param event NOT USED
+     * Delete Product - removes selected part from Product Table.
      */
     @FXML
     void onActionAddProductDelete(ActionEvent event) {
         Part selectedPart = deleteProductTable.getSelectionModel().getSelectedItem();
+        
         // If no part selected
         if (selectedPart == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -141,8 +139,6 @@ public class AddProductController implements Initializable {
 
     /**
      * This method checks for empty or invalid fields before saving part and returning to the Main page.
-     * @param event Save button clicked
-     * @throws IOException NOT USED
      */
     @FXML
     void onActionAddProductSave(ActionEvent event) throws IOException {
@@ -154,33 +150,35 @@ public class AddProductController implements Initializable {
             int min = Integer.parseInt(addProductMin.getText());
             int max = Integer.parseInt(addProductMax.getText());
 
-            // If name field is left blank
+            // Checks if name field is left blank
             if (name.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Warning");
                 alert.setContentText("The name field must completed");
                 alert.showAndWait();
 
-            // If inventory is less than minimum OR inventory is greater than maximum
+            // Checks if inventory is less than minimum OR inventory is greater than maximum
             } else if (inv < min || inv > max) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Warning");
                 alert.setContentText("The Inventory value must be within the minimum and maximum range");
                 alert.showAndWait();
 
-            // If minimum is greater than maximum
+            // Checks if minimum is greater than maximum
             } else if (min > max) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Warning");
                 alert.setContentText("The minimum # must be less than the maximum");
                 alert.showAndWait();
             }
+            
             // Save new Product
             else {
                 Product newProduct = new Product(id, name, price, inv, min, max);
                 for (Part part : addToProduct) {
                     newProduct.addAssociatedPart(part);
                 }
+                
             // auto generate new Product ID
             Inventory.createProductsId().getAndIncrement();
             addToProduct.clear();
@@ -191,7 +189,8 @@ public class AddProductController implements Initializable {
             stage.setTitle("Inventory Management System");
             stage.show();
         }
-            // Error is text fields are blank or invalid
+            
+            // Error if text fields are blank or invalid
         } catch (NumberFormatException | IOException e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning");
@@ -202,13 +201,12 @@ public class AddProductController implements Initializable {
     }
 
     /**
-     * This method searches the Part Table for parts by name or ID# - then highlights found part.
-     * @param event NOT USED
+     * Search Parts - searches the Part Table for parts by name or ID# - then highlights found part.
      */
     @FXML
     void onActionAddProductSearch(ActionEvent event) {
 
-        // if search field is not empty
+        // Checks if search field is not empty
         if (!addProductSearch.getText().trim().isEmpty()) {
             try {
                 // search for ID
@@ -236,29 +234,4 @@ public class AddProductController implements Initializable {
         alert.showAndWait();
     }
 
-    /**
-     * This method Initializes the AddProduct page - auto increments the Parts ID field - sets both tables to default values and parts.
-     * @param url
-     * @param resourceBundle
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        addProductID.setText(Inventory.createProductsId().toString());
-
-        addProductTable.setItems(Inventory.getAllParts());
-
-        addProductTableID.setCellValueFactory(new PropertyValueFactory<>("id"));
-        addProductTablePartName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        addProductTableInvLevel.setCellValueFactory(new PropertyValueFactory<>("stock"));
-        addProductTablePrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-
-        deleteProductTable.setItems(addToProduct);
-
-        deleteProductTablePartID.setCellValueFactory(new PropertyValueFactory<>("id"));
-        deleteProductTablePartName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        deleteProductTableInvLevel.setCellValueFactory(new PropertyValueFactory<>("stock"));
-        deleteProductTablePrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-
-    }
 }
