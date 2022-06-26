@@ -52,9 +52,7 @@ public class AddPartController implements Initializable {
     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // radio button initially set to InHouse
         addPartInHouseButton.setSelected(true);
-        // auto generates part ID
         addPartID.setText(Inventory.createPartsId().toString());
     }
 
