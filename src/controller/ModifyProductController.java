@@ -17,7 +17,6 @@ import javafx.stage.Stage;
 import model.Inventory;
 import model.Part;
 import model.Product;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -31,74 +30,64 @@ public class ModifyProductController implements Initializable {
     Stage stage;
     Parent scene;
 
-    /**
-     * Declare Variables
-     */
+    @FXML private TableView<Part> modifyProductAddTable;
+    @FXML private TableColumn<Part, Integer> modifyProductAddTableID;
+    @FXML private TableColumn<Part, Integer> modifyProductAddTableInv;
+    @FXML private TableColumn<Part, String> modifyProductAddTablePartName;
+    @FXML private TableColumn<Part, Double> modifyProductAddTablePrice;
+    @FXML private TableView<Part> modifyProductDeleteTable;
+    @FXML private TableColumn<Part, Integer> modifyProductDeleteTableID;
+    @FXML private TableColumn<Part, Integer> modifyProductDeleteTableInv;
+    @FXML private TableColumn<Part, String> modifyProductDeleteTablePartName;
+    @FXML private TableColumn<Part, Double> modifyProductDeleteTablePrice;
+    @FXML private TextField modifyProductID;
+    @FXML private TextField modifyProductInv;
+    @FXML private TextField modifyProductMax;
+    @FXML private TextField modifyProductMin;
+    @FXML private TextField modifyProductName;
+    @FXML private TextField modifyProductPrice;
+    @FXML private TextField modifyProductSearch;
 
-    @FXML
-    private TableView<Part> modifyProductAddTable;
-
-    @FXML
-    private TableColumn<Part, Integer> modifyProductAddTableID;
-
-    @FXML
-    private TableColumn<Part, Integer> modifyProductAddTableInv;
-
-    @FXML
-    private TableColumn<Part, String> modifyProductAddTablePartName;
-
-    @FXML
-    private TableColumn<Part, Double> modifyProductAddTablePrice;
-
-    @FXML
-    private TableView<Part> modifyProductDeleteTable;
-
-    @FXML
-    private TableColumn<Part, Integer> modifyProductDeleteTableID;
-
-    @FXML
-    private TableColumn<Part, Integer> modifyProductDeleteTableInv;
-
-    @FXML
-    private TableColumn<Part, String> modifyProductDeleteTablePartName;
-
-    @FXML
-    private TableColumn<Part, Double> modifyProductDeleteTablePrice;
-
-    @FXML
-    private TextField modifyProductID;
-
-    @FXML
-    private TextField modifyProductInv;
-
-    @FXML
-    private TextField modifyProductMax;
-
-    @FXML
-    private TextField modifyProductMin;
-
-    @FXML
-    private TextField modifyProductName;
-
-    @FXML
-    private TextField modifyProductPrice;
-
-    @FXML
-    private TextField modifyProductSearch;
-
-    /**
-     * Product Selected
-     */
     Product selectedProduct;
 
     /**
      * Array of associatedParts
      */
     private ObservableList <Part> associatedParts = FXCollections.observableArrayList();
+    
+   /**
+    * Initialize the ModifyProduct page - brings selected product data from Main Screen - sets both tables to default values and parts.
+    */
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        selectedProduct = MainFormController.getProductModify();
+        
+        // temporarily adds a selected part to the Associated parts table/array. Removes part if product is cancelled/not saved.
+        associatedParts.setAll(selectedProduct.getAllAssociatedParts());
+
+        modifyProductID.setText(String.valueOf(selectedProduct.getId()));
+        modifyProductName.setText(selectedProduct.getName());
+        modifyProductInv.setText(String.valueOf(selectedProduct.getStock()));
+        modifyProductPrice.setText(String.valueOf(selectedProduct.getPrice()));
+        modifyProductMax.setText(String.valueOf(selectedProduct.getMax()));
+        modifyProductMin.setText(String.valueOf(selectedProduct.getMin()));
+
+        modifyProductAddTable.setItems(Inventory.getAllParts());
+        modifyProductAddTableID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        modifyProductAddTablePartName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        modifyProductAddTableInv.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        modifyProductAddTablePrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        modifyProductDeleteTable.setItems(associatedParts);
+        modifyProductDeleteTableID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        modifyProductDeleteTablePartName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        modifyProductDeleteTableInv.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        modifyProductDeleteTablePrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+    }
 
     /**
-     * This method moves selected part from parts table to products table and produces an alert if no part is selected.
-     * @param event NOT USED
+     * Add Part to Product - moves selected part from parts table to products table and produces an alert if no part is selected.
      */
     @FXML
     void onActionModifyProductAdd(ActionEvent event) {
@@ -116,9 +105,7 @@ public class ModifyProductController implements Initializable {
     }
 
     /**
-     * This method cancels any data entered to Modify Product screen and tables - returns to main page.
-     * @param event
-     * @throws IOException
+     * Cancel Product - cancels any data entered to Modify Product screen and tables - returns to main page.
      */
     @FXML
     void onActionModifyProductCancel(ActionEvent event) throws IOException {
@@ -137,8 +124,7 @@ public class ModifyProductController implements Initializable {
     }
 
     /**
-     * This method removes selected part from Product Table.
-     * @param event NOT USED
+     * Delete Part from Product - removes selected part from Product Table.
      */
     @FXML
     void onActionModifyProductDelete(ActionEvent event) {
@@ -165,9 +151,7 @@ public class ModifyProductController implements Initializable {
     }
 
     /**
-     * This method checks for empty or invalid fields before saving part and returning to the Main page.
-     * @param event
-     * @throws IOException NOT USED
+     * Save Product - checks for empty or invalid fields before saving part and returning to the Main page.
      */
     @FXML
     void onActionModifyProductSave(ActionEvent event)throws IOException {
@@ -179,19 +163,21 @@ public class ModifyProductController implements Initializable {
             int min = Integer.parseInt(modifyProductMin.getText());
             int max = Integer.parseInt(modifyProductMax.getText());
 
-            // Error if name field is blank
+            // Checks if name field is blank
             if (name.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Warning");
                 alert.setContentText("The name field must completed");
                 alert.showAndWait();
-            // Error if Inventory is less than Minimum OR Inventory is greater than maximum
+                
+            // Checks if Inventory is less than Minimum OR Inventory is greater than maximum
             } else if (inv < min || inv > max) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Warning");
                 alert.setContentText("The Inventory value must be within the minimum and maximum range");
                 alert.showAndWait();
-            // Error if Minimum is greater than Maximum
+                
+            // Checks if Minimum is greater than Maximum
             } else if (min > max) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Warning");
@@ -212,8 +198,9 @@ public class ModifyProductController implements Initializable {
                 stage.setTitle("Inventory Management System");
                 stage.show();
             }
+            
+         // Error if blank or invalid text fields
         } catch (NumberFormatException | IOException e) {
-            // Error if blank or invalid text fields
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning");
             alert.setContentText("Please input valid data for all text fields");
@@ -222,8 +209,7 @@ public class ModifyProductController implements Initializable {
     }
 
     /**
-     * This method searches the Part Table for parts by name or ID# - then highlights found part.
-     * @param event NOT USED
+     * Search Parts Table - searches for parts by name or ID# - then highlights found part.
      */
     @FXML
     void onActionModifyProductSearch(ActionEvent event) {
@@ -256,37 +242,5 @@ public class ModifyProductController implements Initializable {
         alert.setContentText("Part not found.");
         alert.showAndWait();
     }
-    /**
-     * This method Initializes the ModifyProduct page - brings selected product data from Main Screen - sets both tables to default values and parts.
-     * @param url
-     * @param resourceBundle
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        selectedProduct = MainFormController.getProductModify();
-        // temporarily adds a selected part to the Associated parts table/array. Removes part if product is cancelled/not saved.
-        associatedParts.setAll(selectedProduct.getAllAssociatedParts());
-
-        modifyProductID.setText(String.valueOf(selectedProduct.getId()));
-        modifyProductName.setText(selectedProduct.getName());
-        modifyProductInv.setText(String.valueOf(selectedProduct.getStock()));
-        modifyProductPrice.setText(String.valueOf(selectedProduct.getPrice()));
-        modifyProductMax.setText(String.valueOf(selectedProduct.getMax()));
-        modifyProductMin.setText(String.valueOf(selectedProduct.getMin()));
-
-        modifyProductAddTable.setItems(Inventory.getAllParts());
-
-        modifyProductAddTableID.setCellValueFactory(new PropertyValueFactory<>("id"));
-        modifyProductAddTablePartName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        modifyProductAddTableInv.setCellValueFactory(new PropertyValueFactory<>("stock"));
-        modifyProductAddTablePrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-
-        modifyProductDeleteTable.setItems(associatedParts);
-
-        modifyProductDeleteTableID.setCellValueFactory(new PropertyValueFactory<>("id"));
-        modifyProductDeleteTablePartName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        modifyProductDeleteTableInv.setCellValueFactory(new PropertyValueFactory<>("stock"));
-        modifyProductDeleteTablePrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-    }
 }
