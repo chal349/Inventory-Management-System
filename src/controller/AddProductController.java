@@ -53,7 +53,7 @@ public class AddProductController implements Initializable {
     private static ObservableList <Part> addToProduct = FXCollections.observableArrayList();
 
     /**
-     * Initializes the AddProduct page - auto increments the Parts ID field - sets both tables to default values and parts.
+     * Initialize the AddProduct page - auto increments the Parts ID field - sets both tables to default values and parts.
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -138,7 +138,7 @@ public class AddProductController implements Initializable {
     }
 
     /**
-     * This method checks for empty or invalid fields before saving part and returning to the Main page.
+     * Save Product - checks for empty or invalid fields before saving product and returning to the Main page.
      */
     @FXML
     void onActionAddProductSave(ActionEvent event) throws IOException {
