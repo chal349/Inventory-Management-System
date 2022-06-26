@@ -15,7 +15,6 @@ import model.InHouse;
 import model.Inventory;
 import model.Outsourced;
 import model.Part;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -29,38 +28,46 @@ public class ModifyPartController implements Initializable {
     Stage stage;
     Parent scene;
 
-    /**
-     * Declare Variables
-     */
     @FXML private Label machineAndCompany;
-
     @FXML private TextField modifyPartID;
-
     @FXML private RadioButton modifyPartInHouseButton;
-
     @FXML private TextField modifyPartInv;
-
     @FXML private TextField modifyPartMachine;
-
     @FXML private TextField modifyPartMax;
-
     @FXML private TextField modifyPartMin;
-
     @FXML private TextField modifyPartName;
-
     @FXML private RadioButton modifyPartOutsourcedButton;
-
     @FXML private TextField modifyPartPrice;
 
-    /**
-     * Part Selected
-     */
     private Part partSelected;
 
+   /**
+    * Initializes the Modify Part page - sets both tables to default values and parts.
+    */
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        // Loads the part selected from the main screen to the modify part screen. Checks if its an InHouse or Outsourced part and selects corresponding radio button
+        partSelected = MainFormController.getPartModify();
+        if (partSelected instanceof InHouse) {
+            modifyPartInHouseButton.setSelected(true);
+            modifyPartMachine.setText(String.valueOf(((InHouse) partSelected).getMachineId()));
+        }
+        if (partSelected instanceof Outsourced) {
+            modifyPartOutsourcedButton.setSelected(true);
+            modifyPartMachine.setText(((Outsourced) partSelected).getCompanyName());
+        }
+
+        modifyPartID.setText(String.valueOf(partSelected.getId()));
+        modifyPartName.setText(partSelected.getName());
+        modifyPartInv.setText(String.valueOf(partSelected.getStock()));
+        modifyPartPrice.setText(String.valueOf(partSelected.getPrice()));
+        modifyPartMax.setText(String.valueOf(partSelected.getMax()));
+        modifyPartMin.setText(String.valueOf(partSelected.getMin()));
+    }
+    
     /**
-     * This method cancels any data entered to Modify Part screen and tables - returns to main page.
-     * @param event Cancel button clicked
-     * @throws IOException fxml loader
+     * Cancel Part - cancels any data entered to Modify Part screen and tables, returns to main menu screen.
      */
     @FXML
     void onActionModifyPartCancel(ActionEvent event) throws IOException {
@@ -77,8 +84,7 @@ public class ModifyPartController implements Initializable {
     }
 
     /**
-     * This method is a radio button that changes label text from Outsourced "Company" to Inhouse "Machine ID" when clicked.
-     * @param event NOT USED
+     * Inhouse Radio Button - changes label text from Outsourced "Company" to Inhouse "Machine ID" when clicked.
      */
     @FXML
     void onActionModifyPartInhouse(ActionEvent event) {
@@ -87,8 +93,7 @@ public class ModifyPartController implements Initializable {
     }
 
     /**
-     * This method is a radio button that changes label text from Inhouse "Machine ID" to Outsourced "Company" when clicked.
-     * @param event NOT USED
+     * Outsourced Radio Button - changes label text from Inhouse "Machine ID" to Outsourced "Company" when clicked.
      */
     @FXML
     void onActionModifyPartOutsourced(ActionEvent event) {
@@ -97,9 +102,7 @@ public class ModifyPartController implements Initializable {
     }
 
     /**
-     * This method checks for empty or invalid fields before saving part and returning to the Main page.
-     * @param event Save button clicked
-     * @throws IOException fxml loader
+     * Save Updated Part - checks for empty or invalid fields before saving part and returning to the Main page.
      */
     @FXML
     void onActionModifyPartSave(ActionEvent event)throws IOException{
@@ -152,8 +155,8 @@ public class ModifyPartController implements Initializable {
                 stage.show();
             }
         }
+        //Error if any blank or invalid fields
         catch(NumberFormatException e){
-            //Error if any blank or invalid fields
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning");
             alert.setContentText("Please input valid data for all text fields");
@@ -161,33 +164,4 @@ public class ModifyPartController implements Initializable {
         }
     }
 
-    /**
-     * This method Initializes the Modify Part page - sets both tables to default values and parts.
-     * @param url
-     * @param resourceBundle
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        // Loads the part selected from the main screen to the modify part screen. Checks if its an InHouse or Outsourced part and selects corresponding radio button
-        partSelected = MainFormController.getPartModify();
-        if (partSelected instanceof InHouse) {
-            modifyPartInHouseButton.setSelected(true);
-            modifyPartMachine.setText(String.valueOf(((InHouse) partSelected).getMachineId()));
-        }
-        if (partSelected instanceof Outsourced) {
-            modifyPartOutsourcedButton.setSelected(true);
-            modifyPartMachine.setText(((Outsourced) partSelected).getCompanyName());
-        }
-
-        modifyPartID.setText(String.valueOf(partSelected.getId()));
-        modifyPartName.setText(partSelected.getName());
-        modifyPartInv.setText(String.valueOf(partSelected.getStock()));
-        modifyPartPrice.setText(String.valueOf(partSelected.getPrice()));
-        modifyPartMax.setText(String.valueOf(partSelected.getMax()));
-        modifyPartMin.setText(String.valueOf(partSelected.getMin()));
-
-
-
-    }
 }
