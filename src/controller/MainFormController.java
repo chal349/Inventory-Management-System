@@ -15,7 +15,6 @@ import javafx.stage.Stage;
 import model.Inventory;
 import model.Part;
 import model.Product;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -29,72 +28,52 @@ public class MainFormController implements Initializable {
     Stage stage;
     Parent scene;
 
-    /**
-     * Declare Variables
-     */
     @FXML private TableColumn<Part, Integer> partID;
-
     @FXML private TableColumn<Part, String> partName;
-
     @FXML private TableColumn<Part, Integer> partsInvLevel;
-
     @FXML private TableColumn<Part, Double> partsPrice;
-
     @FXML private TableView<Part> partsTable;
-
     @FXML private TableView<Product> productsTable;
-
     @FXML private TableColumn<Product, Integer> productID;
-
     @FXML private TableColumn<Product, String> productName;
-
     @FXML private TableColumn<Product, Integer> productsInvLevel;
-
     @FXML private TableColumn<Product, Double> productsPrice;
-
     @FXML private TextField productsSearch;
-
     @FXML private TextField searchParts;
 
-    /**
-     * Part selected to modify
-     */
-    private static Part partModify;
 
-    /**
-     * Product selected to modify
-     */
+    private static Part partModify;
     private static Product productModify;
 
-    /**
-     * @return part to modify
-     */
     public static Part getPartModify() {
         return partModify;
     }
 
-    /**
-     * @return product to modify
-     */
     public static Product getProductModify() {
         return productModify;
     }
+    
+   /**
+    *  Initialize Main screen and loads the Part and Products Tables with sample data
+    */
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
-    /**
-     * This method Exits the program
-     */
-    @FXML void onActionExitMain() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you wish to close Application?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            System.exit(0);
-        }
+        partsTable.setItems(Inventory.getAllParts());
+        partID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        partName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        partsInvLevel.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        partsPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        productsTable.setItems(Inventory.getAllProducts());
+        productID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        productName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        productsInvLevel.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        productsPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
     }
 
     /**
-     * This method opens the Add Part page
-     * @param event Add part button clicked
-     * @throws IOException fxml loader
+     * Add part button- Loads add part screen
      */
     @FXML
     void onActionMainAddPart(ActionEvent event) throws IOException {
@@ -106,9 +85,7 @@ public class MainFormController implements Initializable {
     }
 
     /**
-     * This method opens the Add product page when add button is clicked
-     * @param event add product button clicked
-     * @throws IOException fxml loader
+     * Add product button- Loads add product screen
      */
     @FXML
     void onActionMainAddProduct(ActionEvent event) throws IOException {
@@ -120,8 +97,7 @@ public class MainFormController implements Initializable {
     }
 
     /**
-     * This method removes part from Parts table when delete button is clicked
-     * @param event NOT USED
+     * Delete part - removes part from Parts table 
      */
     @FXML
     void onActionMainDeletePart(ActionEvent event) {
@@ -146,11 +122,8 @@ public class MainFormController implements Initializable {
         }
     }
 
-    /**
-     * RUNTIME ERROR - NullPointerException occurred when "!selection.getAllAssociatedParts().isEmpty())" statement was placed before "selection == null" statement. No alert or action happened. Situation was remedied by switching the order of the statements.
-     *
-     * This method removes product from Products table when delete button is clicked
-     * @param event NOT USED
+    /** 
+     * Delete Product - Checks that product contains no parts. Removes product from products table 
      */
     @FXML
     void onActionMainDeleteProduct(ActionEvent event) {
@@ -184,9 +157,7 @@ public class MainFormController implements Initializable {
     }
 
     /**
-     * This method checks if a part has been selected and then goes to Modify Part screen
-     * @param event modify part button clicked
-     * @throws IOException fxml loader
+     * Update Part - Checks if a part has been selected and then sends part information to Update Part screen
      */
     @FXML
     void onActionMainModifyPart(ActionEvent event)  throws IOException{
@@ -200,7 +171,7 @@ public class MainFormController implements Initializable {
             alert.showAndWait();
         }
         else {
-            // Changes window to Modify Part screen
+            // Changes window to Update Part screen
             Parent parent = FXMLLoader.load(getClass().getResource("/view/ModifyPart.fxml"));
             Scene scene = new Scene(parent);
             Stage stage = (Stage)((Button)event.getSource()).getScene().getWindow();
@@ -211,9 +182,7 @@ public class MainFormController implements Initializable {
     }
 
     /**
-     * This method switches to Modify Product screen when Products Table Modify button is clicked
-     * @param event modify product button clicked
-     * @throws IOException fxml loader
+     * Update Product - Checks if a product has been selected and then sends product information to Update Product screen
      */
     @FXML
     void onActionMainModifyProduct(ActionEvent event) throws IOException {
@@ -239,8 +208,7 @@ public class MainFormController implements Initializable {
     }
 
     /**
-     * This method searches the Part Table for parts by name or ID# - then highlights found part
-     * @param actionEvent NOT USED
+     * Search Part - searches the Part Table for parts by name or ID# then highlights found part
      */
     @FXML
     private void onActionMainSearchParts(ActionEvent actionEvent) {
@@ -275,8 +243,7 @@ public class MainFormController implements Initializable {
     }
 
     /**
-     * This method searches the Products Table for products by name or ID# - then highlights found product
-     * @param event NOT USED
+     * Search Product - searches the Products Table for products by name or ID# - then highlights found product
      */
     @FXML
     void onActionMainSearchProducts(ActionEvent event) {
@@ -309,27 +276,16 @@ public class MainFormController implements Initializable {
         alert.setContentText("Product not found.");
         alert.showAndWait();
     }
-
-    /**
-     * This initializes Main screen and loads the Part and Products Tables with sample data
-     * @param url
-     * @param resourceBundle
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        partsTable.setItems(Inventory.getAllParts());
-
-        partID.setCellValueFactory(new PropertyValueFactory<>("id"));
-        partName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        partsInvLevel.setCellValueFactory(new PropertyValueFactory<>("stock"));
-        partsPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-
-        productsTable.setItems(Inventory.getAllProducts());
-
-        productID.setCellValueFactory(new PropertyValueFactory<>("id"));
-        productName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        productsInvLevel.setCellValueFactory(new PropertyValueFactory<>("stock"));
-        productsPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+    
+   /**
+    * Exit Application
+    */
+    @FXML void onActionExitMain() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you wish to close Application?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            System.exit(0);
+        }
     }
+
 }
