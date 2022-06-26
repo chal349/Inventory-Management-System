@@ -10,10 +10,6 @@ import model.Inventory;
 import model.*;
 
 /**
- * FUTURE ENHANCEMENTS -- Include a database that collects and saves data while also tracking inventory so that parts and products used and added would be reflected in stock inventory numbers.
- * RUNTIME ERROR - located in MainForm Controller Delete Product method.
- * JAVADOCS - located in CHprojectMain/javadoc.
- *
  * @author Corey Hall
  *
  * Main Class application
@@ -21,6 +17,7 @@ import model.*;
 public class Main extends Application {
 
     @Override
+    
     // Loads Main Screen
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("../view/MainForm.fxml"));
@@ -29,10 +26,7 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    /**
-     * Method called when program is opened / loads default parts and products for testing.
-     * @param args launch
-     */
+    // Includes initial data (parts and products)
     public static void main(String[] args) {
 
         Part taco = new InHouse(Inventory.createPartsId().getAndIncrement(),"Taco",1.99,35,20,120,1000);
