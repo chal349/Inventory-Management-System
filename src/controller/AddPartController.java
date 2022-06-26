@@ -2,7 +2,6 @@
  * @author Corey Hall
  */
 package controller;
-
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -28,27 +27,18 @@ public class AddPartController implements Initializable {
     Parent scene;
     
     @FXML private Label MachineCompany;
-
     @FXML private TextField addPartID;
-
     @FXML private RadioButton addPartInHouseButton;
-
     @FXML private TextField addPartInv;
-
     @FXML private TextField addPartMachine;
-
     @FXML private TextField addPartMax;
-
     @FXML private TextField addPartMin;
-
     @FXML private TextField addPartName;
-
     @FXML private RadioButton addPartOutsourcedButton;
-
     @FXML private TextField addPartPrice;
     
    /**
-    * This method initializes the Add Part page - it sets the InHouse radio button to selected and auto increments the parts ID field.
+    * Initialize the Add Part page - it sets the InHouse radio button to selected and auto increments the parts ID field.
     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -57,7 +47,7 @@ public class AddPartController implements Initializable {
     }
 
     /**
-     * This method cancels any data entered to Add Part screen and returns to Main page.
+     * Cancel Part - cancels any data entered to Add Part screen and returns to Main page.
      */
     @FXML
     void onActionAddPartCancel(ActionEvent event) throws IOException {
@@ -74,7 +64,7 @@ public class AddPartController implements Initializable {
     }
 
     /**
-     * This method is a radio button that changes label text from Outsourced "Company" to InHouse "Machine ID" when clicked.
+     * In-House Radio Button - changes label text from Outsourced "Company" to InHouse "Machine ID" when clicked.
      */
     @FXML void onActionAddPartInHouse(ActionEvent event) {
         MachineCompany.setText("Machine ID");
@@ -82,7 +72,7 @@ public class AddPartController implements Initializable {
     }
 
     /**
-     * This method is a radio button that changes label text from InHouse "Machine ID" to Outsourced "Company".
+     * Outsourced Radio Button - changes label text from InHouse "Machine ID" to Outsourced "Company".
      */
     @FXML void onActionAddPartOutsourced(ActionEvent event) {
         MachineCompany.setText("Company");
@@ -90,7 +80,7 @@ public class AddPartController implements Initializable {
     }
 
     /**
-     * This method checks for empty or invalid fields before saving Part and then returns to the Main page.
+     * Save Part - checks for empty or invalid fields before saving Part and then returns to the Main page.
      */
     @FXML void onActionAddPartSave(ActionEvent event) throws IOException{
         try {
